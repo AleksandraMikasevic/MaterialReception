@@ -7,10 +7,16 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<div class="container-fluid">
-    <br><br><br>
-    <div class="row">
-        <div class="col-xl-4 col-lg-8 col-md-12 col-sm-12 col-12">
+<container>
+    <div class="forma">
+        <div class="main-div" style="max-width: 50%">
+            <div class="panel">
+                <h2>Brisanje prijemnice</h2>
+                <p>Informacije o prijemnici</p>
+                <div class="errorblock">
+                    <c:if test="${not empty error}">${error}</c:if>
+                    </div>
+                </div>
             <form:form action="/NJProjekatFED/goods_received_note/remove_goods_received_note/${grcn.brojPrijemnice}" method="post" modelAttribute="grcn">
                 <div class="form-row">
                     <div class="form-group col-md-6">
@@ -33,14 +39,18 @@
                 <div class="form-group">
                     <form:label path="brojVagarskePotvrde">Vagarska potvrda</form:label>
                     <form:input disabled="true" path="brojVagarskePotvrde" class="form-control" id="brojVagarskePotvrde" placeholder="brojVagarskePotvrde"/>
-                    <br><br>
-                    <table  id="stavke" class="table table-hover table-striped table-bordered table-dark">
+                    <label>Stavke prijemnice</label>
+                    <br>
+                    <table  id="stavke" class="table table-hover table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th scope="col">Redni broj</th>
                                 <th scope="col">Kolicina</th>
                                 <th scope="col">Sifra materijala</th>
                                 <th scope="col">Cena</th>
+                                <th scope="col">Vrednost</th>
+                                <th scope="col">PDV</th>
+                                <th scope="col">Vrednost sa PDV-om</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -50,7 +60,9 @@
                                     <td>${item.kolicina}</td>
                                     <td>${item.sifraMaterijala.nazivMaterijala}</td>
                                     <td>${item.sifraMaterijala.cena}</td>
-                                    <td></td>
+                                    <td>${item.sifraMaterijala.cena*item.kolicina}</td>
+                                    <td>${item.sifraMaterijala.pdv}%</td>
+                                    <td>${item.sifraMaterijala.cena*item.kolicina*(item.sifraMaterijala.pdv+100)/100}</td>
                                 </tr>
                             </c:forEach>
                         </tbody>
@@ -58,12 +70,13 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <button type="submit" class="btn btn-primary"><i class="fa fa-remove"></i></button>
+                        </div>
+                        <div class="form-group col-md-6">
                             <a href="<c:url value='/goods_received_note/all_goods_received_notes'/>" class="btn btn-primary"><i class="fa fa-reply"></i></a>
                         </div>
                     </div>
                 </form:form>
-                <br><br>
             </div>
         </div>
-    </div>
-</div>
+</container>
+

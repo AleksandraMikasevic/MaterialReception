@@ -9,10 +9,16 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<div class="container-fluid">
-    <br><br><br>
-    <div class="row">
-        <div class="col-xl-4 col-lg-8 col-md-12 col-sm-12 col-12">
+<container>
+    <div class="forma">
+        <div class="main-div">
+            <div class="panel">
+                <h2>Prikaz materijala</h2>
+                <p>Informacije o materijalu</p>
+                <div class="errorblock">
+                    <c:if test="${not empty error}">${error}</c:if>
+                    </div>
+                </div>
             <form:form modelAttribute="material">
                 <div class="form-row">
                     <div class="form-group col-md-6">
@@ -37,9 +43,13 @@
                     <form:input disabled="true" path="cena" class="form-control" id="cena" placeholder="cena" value= "${material.cena}"/>
                 </div>
                 <div class="form-group">
+                    <form:label path="cena">Opis</form:label>
+                    <form:input disabled="true" path="opis" class="form-control" id="opis" placeholder="opis" value= "${material.opis}"/>
+                </div>
+                <div class="form-group">
                     <a href="<c:url value='/material/all_materials'/>" class="btn btn-primary"><i class="fa fa-reply"></i></a>
                 </div>
             </form:form>
         </div>
     </div>
-</div>
+</container>

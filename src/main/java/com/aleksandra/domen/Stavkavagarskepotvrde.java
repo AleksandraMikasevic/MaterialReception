@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -31,6 +32,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Stavkavagarskepotvrde.findByBrutoMasa", query = "SELECT s FROM Stavkavagarskepotvrde s WHERE s.brutoMasa = :brutoMasa")
     , @NamedQuery(name = "Stavkavagarskepotvrde.findByNetoMasa", query = "SELECT s FROM Stavkavagarskepotvrde s WHERE s.netoMasa = :netoMasa")})
 public class Stavkavagarskepotvrde implements Serializable {
+
+    @Size(max = 50)
+    @Column(name = "registarskiBrojVozila")
+    private String registarskiBrojVozila;
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
@@ -121,5 +126,13 @@ public class Stavkavagarskepotvrde implements Serializable {
     public String toString() {
         return "com.aleksandra.domen.Stavkavagarskepotvrde[ stavkavagarskepotvrdePK=" + stavkavagarskepotvrdePK + " ]";
     }
-    
+
+    public String getRegistarskiBrojVozila() {
+        return registarskiBrojVozila;
+    }
+
+    public void setRegistarskiBrojVozila(String registarskiBrojVozila) {
+        this.registarskiBrojVozila = registarskiBrojVozila;
+    }
+
 }

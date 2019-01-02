@@ -7,6 +7,7 @@
         <put-attribute name="title" value="" />
         <put-attribute name="menu" value="" />
         <put-attribute name="body" value="" />
+        <put-attribute name="footer" value="/WEB-INF/common/footer.jsp" />
         <put-attribute name="head" value="/WEB-INF/common/head.jsp" />
     </definition>
     <definition name="index" extends="common">
@@ -19,10 +20,25 @@
         <put-attribute name="menu" value="/WEB-INF/common/headerNL.jsp" />
         <put-attribute name="body" value="/WEB-INF/jsp/login.jsp" />
     </definition>
+    <definition name="all_weight_certificate" extends="common">
+        <put-attribute name="title" value="Vagarske potvrde" />
+        <put-attribute name="menu" value="/WEB-INF/common/headerL.jsp" />
+        <put-attribute name="body" value="/WEB-INF/jsp/all_weight_certificate.jsp" />
+    </definition>
+     <definition name="find_weight_certificate" extends="common">
+        <put-attribute name="title" value="Vagarska potvrda" />
+        <put-attribute name="menu" value="/WEB-INF/common/headerL.jsp" />
+        <put-attribute name="body" value="/WEB-INF/jsp/find_wight_certificate.jsp" />
+    </definition>
     <definition name="all_materials" extends="common">
         <put-attribute name="title" value="Materijali" />
         <put-attribute name="menu" value="/WEB-INF/common/headerL.jsp" />
         <put-attribute name="body" value="/WEB-INF/jsp/all_materials.jsp" />
+    </definition>
+    <definition name="all_suppliers" extends="common">
+        <put-attribute name="title" value="Dobavljaci" />
+        <put-attribute name="menu" value="/WEB-INF/common/headerL.jsp" />
+        <put-attribute name="body" value="/WEB-INF/jsp/all_suppliers.jsp" />
     </definition>
     <definition name="main" extends="common">
         <put-attribute name="title" value="Pocetna strana" />
@@ -93,5 +109,35 @@
         <put-attribute name="title" value="Stavka prijemnice" />
         <put-attribute name="menu" value="/WEB-INF/common/headerL.jsp" />
         <put-attribute name="body" value="/WEB-INF/jsp/change_goods_received_note_item_info.jsp" />
+    </definition>
+    <definition name="add_supplier" extends="common">
+        <put-attribute name="title" value="Dodavanje dobavljaca" />
+        <put-attribute name="menu" value="/WEB-INF/common/headerL.jsp" />
+        <put-attribute name="body" value="/WEB-INF/jsp/add_supplier.jsp" />
+    </definition>
+    <definition name="find_supplier" extends="common">
+        <put-attribute name="title" value="Dobavljac" />
+        <put-attribute name="menu" value="/WEB-INF/common/headerL.jsp" />
+        <put-attribute name="body" value="/WEB-INF/jsp/find_supplier.jsp" />
+    </definition>
+    <definition name="remove_supplier" extends="common">
+        <put-attribute name="title" value="Brisanje dobavljaca" />
+        <put-attribute name="menu" value="/WEB-INF/common/headerL.jsp" />
+        <put-attribute name="body" value="/WEB-INF/jsp/remove_supplier.jsp" />
+    </definition>
+    <definition name="update_supplier" extends="common">
+        <put-attribute name="title" value="Izmena dobavljaca" />
+        <put-attribute name="menu" value="/WEB-INF/common/headerL.jsp" />
+        <put-attribute name="body" value="/WEB-INF/jsp/update_supplier.jsp" />
+    </definition>
+    <definition name="all_materials_graph" extends="common">
+        <put-attribute name="title" value="Graficki prikaz materijala" />
+        <put-attribute name="menu" value="/WEB-INF/common/headerL.jsp" />
+        <put-attribute name="body" value="/WEB-INF/jsp/all_materials_graph.jsp" />
+    </definition>
+        <definition name="find_employee" extends="common">
+        <put-attribute name="title" value="Graficki prikaz materijala" />
+        <put-attribute name="menu" value="/WEB-INF/common/headerL.jsp" />
+        <put-attribute name="body" value="/WEB-INF/jsp/find_employee.jsp" />
     </definition>
 </tiles-definitions>

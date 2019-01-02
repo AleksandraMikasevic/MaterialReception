@@ -8,18 +8,22 @@ package com.aleksandra.domen;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  *
@@ -38,6 +42,12 @@ import org.codehaus.jackson.annotate.JsonIgnore;
     ,@NamedQuery(name = "Zaposleni.findByLogin", query = "SELECT z FROM Zaposleni z WHERE z.lozinka = :lozinka and z.korisnickoIme = :korisnickoIme")
     , @NamedQuery(name = "Zaposleni.findByKorisnickoIme", query = "SELECT z FROM Zaposleni z WHERE z.korisnickoIme = :korisnickoIme")})
 public class Zaposleni implements Serializable {
+
+    @OneToMany(mappedBy = "jmbg")
+    private Collection<Vagarskapotvrda> vagarskapotvrdaCollection;
+    @OneToMany(mappedBy = "jmbg")
+    private Collection<Prijemnica> prijemnicaCollection;
+
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -61,10 +71,6 @@ public class Zaposleni implements Serializable {
     @Size(max = 30)
     @Column(name = "korisnickoIme")
     private String korisnickoIme;
-    @OneToMany(mappedBy = "jmbg")
-    private Collection<Vagarskapotvrda> vagarskapotvrdaCollection;
-    @OneToMany(mappedBy = "jmbg")
-    private Collection<Prijemnica> prijemnicaCollection;
 
     public Zaposleni() {
     }
@@ -120,27 +126,7 @@ public class Zaposleni implements Serializable {
     public void setKorisnickoIme(String korisnickoIme) {
         this.korisnickoIme = korisnickoIme;
     }
-
-    @XmlTransient
-    @JsonIgnore
-    public Collection<Vagarskapotvrda> getVagarskapotvrdaCollection() {
-        return vagarskapotvrdaCollection;
-    }
-
-    public void setVagarskapotvrdaCollection(Collection<Vagarskapotvrda> vagarskapotvrdaCollection) {
-        this.vagarskapotvrdaCollection = vagarskapotvrdaCollection;
-    }
-
-    @XmlTransient
-    @JsonIgnore
-    public Collection<Prijemnica> getPrijemnicaCollection() {
-        return prijemnicaCollection;
-    }
-
-    public void setPrijemnicaCollection(Collection<Prijemnica> prijemnicaCollection) {
-        this.prijemnicaCollection = prijemnicaCollection;
-    }
-
+    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -164,6 +150,28 @@ public class Zaposleni implements Serializable {
     @Override
     public String toString() {
         return ime+" "+prezime;
+    }
+
+ 
+
+    @XmlTransient
+    @JsonIgnore
+    public Collection<Vagarskapotvrda> getVagarskapotvrdaCollection() {
+        return vagarskapotvrdaCollection;
+    }
+
+    public void setVagarskapotvrdaCollection(Collection<Vagarskapotvrda> vagarskapotvrdaCollection) {
+        this.vagarskapotvrdaCollection = vagarskapotvrdaCollection;
+    }
+
+    @XmlTransient
+    @JsonIgnore
+    public Collection<Prijemnica> getPrijemnicaCollection() {
+        return prijemnicaCollection;
+    }
+
+    public void setPrijemnicaCollection(Collection<Prijemnica> prijemnicaCollection) {
+        this.prijemnicaCollection = prijemnicaCollection;
     }
 
 }

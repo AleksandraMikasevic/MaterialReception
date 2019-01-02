@@ -25,4 +25,6 @@ public interface IPrijemnicaService {
     public void zapamtiPrijemnicu(Prijemnica prijemnica) throws Exception;
 
     public int vratiBrojPrijemnice() throws Exception;
+
+    public String postojiPrijemnicaVP(int id);
 }

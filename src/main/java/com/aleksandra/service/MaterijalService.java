@@ -5,49 +5,68 @@
  */
 package com.aleksandra.service;
 
-import com.aleksandra.dao.implementation.MaterijalDAO;
+import com.aleksandra.dao.IMaterijalDAORep;
+import com.aleksandra.dao.IPrijemnicaDAORep;
 import com.aleksandra.domen.Materijal;
+import com.aleksandra.domen.Prijemnica;
+import com.aleksandra.domen.Stavkaprijemnice;
+import java.util.ArrayList;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author User
  */
+@Service("materijalService")
 public class MaterijalService implements IMaterijalService {
+
+    @Autowired
+    private IMaterijalDAORep materijalDAO;
+    @Autowired
+    private IPrijemnicaDAORep prijemnicaDAO;
 
     @Override
     public void dodajMaterijal(Materijal materijal) throws Exception {
-        MaterijalDAO materijalDao = new MaterijalDAO();
-        materijalDao.dodajMaterijal(materijal);
+        materijalDAO.save(materijal);
     }
 
     @Override
     public void obrisiMaterijal(String materijalID) throws Exception {
-        MaterijalDAO materijalDao = new MaterijalDAO();
-        materijalDao.obrisiMaterijal(materijalID);
+        System.out.println("obrisi materijalaaaaaaaaaaaaaaaaaaaaaaal ");
+        List<Prijemnica> prijemnice = prijemnicaDAO.findAll();
+        List<Prijemnica> obrisiPrijem = new ArrayList<Prijemnica>();
+        for (Prijemnica prijemnica : prijemnice) {
+            System.out.println("brisanje prijemniceeeeee id mat: " + materijalID);
+            for (Stavkaprijemnice stavkaprijemnice : prijemnica.getStavkaprijemniceCollection()) {
+                System.out.println("aleksandra3333");
+                System.out.println("sifra materijala stavke "+stavkaprijemnice.getSifraMaterijala().getSifraMaterijala());
+                if (stavkaprijemnice.getSifraMaterijala().getSifraMaterijala().equals(materijalID)) {
+                    System.out.println("aleksandra111");
+                    prijemnicaDAO.delete(prijemnica.getBrojPrijemnice());
+                    break;
+                }
+            }
+        }
+        System.out.println("brisanje materijalaaaa");
+        materijalDAO.delete(materijalID);
     }
 
     @Override
     public List<Materijal> ucitajMaterijale() throws Exception {
-        MaterijalDAO materijal = new MaterijalDAO();
-        List<Materijal> materijali = materijal.ucitajMaterijale();
-        return materijali;
+        return materijalDAO.findAll();
     }
 
     @Override
     public Materijal pronadjiMaterijal(String materijalID) throws Exception {
-        MaterijalDAO materijal = new MaterijalDAO();
-        Materijal mat = materijal.pronadjiMaterijal(materijalID);
-        if (mat == null) {
-            throw new Exception("Ne postoji trazeni materijal.");
-        }
-        return mat;
+        System.out.println(" id " + materijalID);
+        return materijalDAO.findOne(materijalID);
     }
 
     @Override
     public void zapamtiMaterijal(Materijal materijal) throws Exception {
-        MaterijalDAO materijalDao = new MaterijalDAO();
-        materijalDao.zapamtiMaterijal(materijal);
+        materijalDAO.save(materijal);
     }
 
 }

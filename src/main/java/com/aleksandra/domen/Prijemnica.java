@@ -5,21 +5,23 @@
  */
 package com.aleksandra.domen;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -27,7 +29,6 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -45,6 +46,18 @@ import org.springframework.format.annotation.DateTimeFormat;
     , @NamedQuery(name = "Prijemnica.findByUkupno", query = "SELECT p FROM Prijemnica p WHERE p.ukupno = :ukupno")})
 public class Prijemnica implements Serializable {
 
+    @Column(name = "datumUnosa")
+    @Temporal(TemporalType.DATE)
+    private Date datumUnosa;
+
+    @Column(name = "ukupnoSaPDV")
+    private Double ukupnoSaPDV;
+    @Column(name = "ukupanPDV")
+    private Double ukupanPDV;
+    @JoinColumn(name = "PIB", referencedColumnName = "PIB")
+    @ManyToOne
+    private Dobavljac pib;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -60,17 +73,21 @@ public class Prijemnica implements Serializable {
     private Double ukupno;
     @JoinColumn(name = "jmbg", referencedColumnName = "jmbg")
     @ManyToOne
+    @JsonIgnore
     private Zaposleni jmbg;
     @JoinColumn(name = "brojVagarskePotvrde", referencedColumnName = "brojVagarskePotvrde")
-    @ManyToOne
+    @OneToOne
+    @JsonIgnore
     private Vagarskapotvrda brojVagarskePotvrde;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "prijemnica", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "prijemnica", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Stavkaprijemnice> stavkaprijemniceCollection;
     @Transient
     private String datumS;
 
+   
+    
     public Prijemnica() {
-        stavkaprijemniceCollection = new ArrayList<>();
+        datumUnosa = new Date();
     }
 
     public Prijemnica(Integer brojPrijemnice) {
@@ -158,6 +175,38 @@ public class Prijemnica implements Serializable {
     @Override
     public String toString() {
         return "com.aleksandra.domen.Prijemnica[ brojPrijemnice=" + brojPrijemnice + " ]";
+    }
+
+    public Double getUkupnoSaPDV() {
+        return ukupnoSaPDV;
+    }
+
+    public void setUkupnoSaPDV(Double ukupnoSaPDV) {
+        this.ukupnoSaPDV = ukupnoSaPDV;
+    }
+
+    public Double getUkupanPDV() {
+        return ukupanPDV;
+    }
+
+    public void setUkupanPDV(Double ukupanPDV) {
+        this.ukupanPDV = ukupanPDV;
+    }
+
+    public Dobavljac getPib() {
+        return pib;
+    }
+
+    public void setPib(Dobavljac pib) {
+        this.pib = pib;
+    }
+
+    public Date getDatumUnosa() {
+        return datumUnosa;
+    }
+
+    public void setDatumUnosa(Date datumUnosa) {
+        this.datumUnosa = datumUnosa;
     }
 
 }

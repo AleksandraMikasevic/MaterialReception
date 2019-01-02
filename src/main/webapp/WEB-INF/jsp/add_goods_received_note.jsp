@@ -4,10 +4,16 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
-<div class="container-fluid">
-    <br><br><br>
-    <div class="row">
-        <div class="col-xl-4 col-lg-8 col-md-12 col-sm-12 col-12">
+<container>
+    <div class="forma">
+        <div class="main-div">
+            <div class="panel">
+                <h2>Dodavanje prijemnice</h2>
+                <p>Osnovne informacije o prijemnici</p>
+                <div class="errorblock">
+                    <c:if test="${not empty error}">${error}</c:if>
+                    </div>
+                </div>
             <form:form action="/NJProjekatFED/goods_received_note/add_goods_received_note_info" method="POST" modelAttribute="grcn">
                 <div class="form-row">
                     <div class="form-group col-md-6">
@@ -28,31 +34,30 @@
                     </div>
                     <div class="form-group col-md-6">
                         <form:label path="brojVagarskePotvrde.brojVagarskePotvrde">Vagarska potvrda</form:label>
-                        <form:select path="brojVagarskePotvrde.brojVagarskePotvrde" class="form-control">
-                            <form:options items="${listaVagarskihPotvrda}" itemLabel="brojVagarskePotvrde" itemValue="brojVagarskePotvrde" />
-                        </form:select>
+                        <form:input path="brojVagarskePotvrde.brojVagarskePotvrde" class="form-control" readonly="true" id="brojVagarskePotvrde" placeholder="brojVagarskePotvrde" />
                     </div>
+                </div>
+                <div class="form-group col-md-12">
+                <form:label path="pib.pib">Dobavljac</form:label>
+                    <form:select path="pib.pib" class="form-control">
+                        <form:options items="${listaDobavljaca}" itemLabel="pib" itemValue="pib" />
+                    </form:select>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i></button>
-                        <a href="<c:url value='/goods_received_note/all_goods_received_notes'/>" class="btn btn-primary"><i class="fa fa-reply"></i></a>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <a href="<c:url value='/weight_certificate/all_weight_certificate'/>" class="btn btn-primary"><i class="fa fa-reply"></i></a>
                     </div>
                 </div>
             </form:form>
         </div>
     </div>
-</div>
+</container>
 <script>
     $(document).ready(function () {
         $("#datepicker").datepicker({dateFormat: 'yy-mm-dd'});
-    });
-    $(document).ready(function () {
-        $.getJSON("vagarska_potvrda/json", {}, function (data) {
-            for (i = 0; i < data.length; i++) {
-                $('#primioRadnik').append("<option value='" + data[i].radnikID + "'>" + data[i].imePrezime + "</option>");
-            }
-        });
     });
     $(document).ready(function () {
         $('form').bootstrapValidator({

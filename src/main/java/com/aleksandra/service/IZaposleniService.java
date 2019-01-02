@@ -16,4 +16,6 @@ public interface IZaposleniService {
 
     public List<Zaposleni> ucitajZaposlene() throws Exception;
     public Zaposleni proveriZaposlenog(String username, String password) throws Exception;
+    public Zaposleni pronadjiZaposlenog(String username) throws Exception;
+
 }

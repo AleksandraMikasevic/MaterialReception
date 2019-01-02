@@ -21,4 +21,7 @@ public interface IVagarskaPotvrdaService {
     public Vagarskapotvrda pronadjiVagarskuPotvrdu(int vagarskaPotvrdaID) throws Exception;
 
     public void zapamtiVagarskuPotvrdu(Vagarskapotvrda vagarskaPotvrda) throws Exception;
+
+    public List<Vagarskapotvrda> pronadjiMoguceVagarskePotvrde() throws Exception;
+
 }

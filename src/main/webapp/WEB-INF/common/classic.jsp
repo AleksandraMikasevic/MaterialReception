@@ -19,4 +19,7 @@
         <tiles:insertAttribute name="menu"/>
         <tiles:insertAttribute name="body"/>
     </body>
+    <footer>
+        <tiles:insertAttribute name="footer"/>
+    </footer>
 </html>

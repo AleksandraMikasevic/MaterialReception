@@ -8,13 +8,16 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<div class="errorblock">
-    <c:if test="${not empty error}">${error}</c:if>
-    </div>
-    <br>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-xl-4 col-lg-8 col-md-12 col-sm-12 col-12">
+<container>
+    <div class="forma">
+        <div class="main-div">
+            <div class="panel">
+                <h2>Izmena materijala</h2>
+                <p>Unesite nove informacije o materijalu</p>
+                <div class="errorblock">
+                    <c:if test="${not empty error}">${error}</c:if>
+                    </div>
+                </div>
             <form:form action="/NJProjekatFED/material/update_material/${material.sifraMaterijala}" method="post" modelAttribute="material">
                 <div class="form-row">
                     <div class="form-group col-md-6">
@@ -40,13 +43,55 @@
                     <form:label path="cena">Cena</form:label>
                     <form:input path="cena" class="form-control" id="cena" placeholder="cena" value= "${material.cena}"/>
                 </div>
+                <div class="form-group">
+                    <form:label path="cena">Opis</form:label>
+                    <form:input path="opis" class="form-control" id="opis" placeholder="opis" value= "${material.opis}"/>
+                </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i></button>
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i></button>                    </div>
+                    <div class="form-group col-md-6">
                         <a href="/NJProjekatFED/material/all_materials" class="btn btn-primary"><i class="fa fa-reply"></i></a>
                     </div>
                 </div>
             </form:form>
         </div>
     </div>
-</div>
+</container>
+                    <script>
+    $(document).ready(function () {
+        $('form').bootstrapValidator({
+            fields: {
+                sifraMaterijala: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Unesite sifru materijala'
+                        }
+                    }
+                },
+                nazivMaterijala: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Unesite naziv materijala'
+                        }
+                    }
+                },
+                pdv: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Unesite pdv'
+                        }
+                    }
+                },
+                cena: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Unesite cenu'
+                        }
+                    }
+                }
+            }
+        });
+    });
+
+</script>

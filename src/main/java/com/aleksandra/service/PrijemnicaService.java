@@ -5,52 +5,67 @@
  */
 package com.aleksandra.service;
 
-import com.aleksandra.dao.implementation.PrijemnicaDAO;
+import com.aleksandra.dao.IPrijemnicaDAORep;
 import com.aleksandra.domen.Prijemnica;
+import java.util.Date;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author User
  */
+@Service("prijemnicaService")
 public class PrijemnicaService implements IPrijemnicaService {
+
+    @Autowired
+    private IPrijemnicaDAORep prijemnicaDAO;
 
     @Override
     public void dodajPrijemnicu(Prijemnica prijemnica) throws Exception {
-        PrijemnicaDAO prijemnicaDAO = new PrijemnicaDAO();
-        prijemnicaDAO.dodajPrijemnicu(prijemnica);
+        prijemnica.setDatumUnosa(new Date());
+        prijemnicaDAO.save(prijemnica);
     }
 
     @Override
     public void obrisiPrijemnicu(int prijemnicaID) throws Exception {
-        PrijemnicaDAO prijemnicaDAO = new PrijemnicaDAO();
-        prijemnicaDAO.obrisiPrijemnicu(prijemnicaID);
+        prijemnicaDAO.delete(prijemnicaID);
     }
 
     @Override
     public List<Prijemnica> ucitajPrijemnice() throws Exception {
-        PrijemnicaDAO prijemnicaDAO = new PrijemnicaDAO();
-        List<Prijemnica> prijemnice = prijemnicaDAO.pronadjiSvePrijemnice();
-        return prijemnice;
+        return prijemnicaDAO.findAll();
     }
 
     @Override
     public Prijemnica pronadjiPrijemnicu(int prijemnicaID) throws Exception {
-        PrijemnicaDAO prijemnicaDAO = new PrijemnicaDAO();
-        Prijemnica prijemnica = prijemnicaDAO.pronadjiPrijemnicu(prijemnicaID);
-        return prijemnica;
+        return prijemnicaDAO.findOne(prijemnicaID);
     }
 
     @Override
     public void zapamtiPrijemnicu(Prijemnica prijemnica) throws Exception {
-        PrijemnicaDAO prijemnicaDAO = new PrijemnicaDAO();
-        prijemnicaDAO.zapamtiPrijemnicu(prijemnica);
+        prijemnicaDAO.save(prijemnica);
     }
 
     @Override
     public int vratiBrojPrijemnice() throws Exception {
-        PrijemnicaDAO prijemnicaDAO = new PrijemnicaDAO();
-        return prijemnicaDAO.vratiBrojPrijemnice();
+        List<Prijemnica> prijemnice = prijemnicaDAO.findAll();
+        if (prijemnice.isEmpty()) {
+            return 1;
+        }
+        return prijemnicaDAO.vratiBrojPrijemnice()+1;
     }
     
+
+    @Override
+    public String postojiPrijemnicaVP(int id) {
+        Prijemnica prijemnica = prijemnicaDAO.postojiPrijemnica(id);
+        if(prijemnica == null)
+            return "";
+        else 
+            return prijemnica.getBrojPrijemnice().toString();
+    }
+    
+
 }

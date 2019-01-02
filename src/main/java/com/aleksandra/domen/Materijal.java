@@ -20,7 +20,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import org.codehaus.jackson.annotate.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.CascadeType;
 
 /**
  *
@@ -37,6 +38,10 @@ import org.codehaus.jackson.annotate.JsonIgnore;
     , @NamedQuery(name = "Materijal.findByPdv", query = "SELECT m FROM Materijal m WHERE m.pdv = :pdv")
     , @NamedQuery(name = "Materijal.findByCena", query = "SELECT m FROM Materijal m WHERE m.cena = :cena")})
 public class Materijal implements Serializable {
+
+    @Size(max = 255)
+    @Column(name = "opis")
+    private String opis;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -149,6 +154,14 @@ public class Materijal implements Serializable {
     @Override
     public String toString() {
         return nazivMaterijala;
+    }
+
+    public String getOpis() {
+        return opis;
+    }
+
+    public void setOpis(String opis) {
+        this.opis = opis;
     }
 
 }

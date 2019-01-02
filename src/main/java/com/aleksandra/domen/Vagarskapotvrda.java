@@ -5,6 +5,7 @@
  */
 package com.aleksandra.domen;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -12,6 +13,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -24,7 +26,6 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
@@ -52,12 +53,15 @@ public class Vagarskapotvrda implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "ukupnaMasa")
     private Double ukupnaMasa;
+    @JsonIgnore
     @JoinColumn(name = "jmbg", referencedColumnName = "jmbg")
     @ManyToOne
     private Zaposleni jmbg;
-    @OneToMany(mappedBy = "brojVagarskePotvrde")
-    private Collection<Prijemnica> prijemnicaCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "vagarskapotvrda")
+   /* @OneToMany(mappedBy = "brojVagarskePotvrde")
+    @JsonIgnore
+    private Collection<Prijemnica> prijemnicaCollection;*/
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "vagarskapotvrda", fetch = FetchType.EAGER)
+    @JsonIgnore
     private Collection<Stavkavagarskepotvrde> stavkavagarskepotvrdeCollection;
 
     public Vagarskapotvrda() {
@@ -98,7 +102,7 @@ public class Vagarskapotvrda implements Serializable {
     public void setJmbg(Zaposleni jmbg) {
         this.jmbg = jmbg;
     }
-
+/*
     @XmlTransient
     @JsonIgnore
     public Collection<Prijemnica> getPrijemnicaCollection() {
@@ -108,7 +112,7 @@ public class Vagarskapotvrda implements Serializable {
     public void setPrijemnicaCollection(Collection<Prijemnica> prijemnicaCollection) {
         this.prijemnicaCollection = prijemnicaCollection;
     }
-
+*/
     @XmlTransient
     @JsonIgnore
     public Collection<Stavkavagarskepotvrde> getStavkavagarskepotvrdeCollection() {
@@ -143,5 +147,5 @@ public class Vagarskapotvrda implements Serializable {
     public String toString() {
         return brojVagarskePotvrde + "";
     }
-    
+
 }

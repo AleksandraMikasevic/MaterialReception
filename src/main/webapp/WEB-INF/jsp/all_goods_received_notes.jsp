@@ -8,44 +8,98 @@
 <!DOCTYPE html>
 <body>
     <div class="container-fluid">
-        <br><br><br>
-        <div class="row">
-            <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12">
-                <table  id="prijemnice" class="table table-hover table-striped table-bordered table-dark">
-                    <thead>
-                        <tr>
-                            <th scope="col">Broj prijemnice</th>
-                            <th scope="col">Datum</th>
-                            <th scope="col">Ukupno</th>
-                            <th scope="col">JMBG</th>
-                            <th scope="col">BrojVagarskePotvrde</th>
-                            <th scope="col">#</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach items="${listaPrijemnica}" var="grcn">
-                            <tr>
+        <br>
 
-                                <th scope="row">${grcn.brojPrijemnice}</th>
-                                <td>${grcn.datum}</td>
-                                <td>${grcn.ukupno}</td>
-                                <td>${grcn.jmbg.jmbg}</td>
-                                <td>${grcn.brojVagarskePotvrde.brojVagarskePotvrde}</td>
-                                <td>
-                                    <a href="<c:url value='/goods_received_note/find_goods_received_note/${grcn.brojPrijemnice}'/>" class="btn btn-primary"><i class="fa fa-info-circle"></i></a>
-                                    <a href="<c:url value='/goods_received_note/update_goods_received_note/${grcn.brojPrijemnice}'/>" class="btn btn-primary"><i class="fa fa-cogs"></i></a>
-                                    <a href="<c:url value='/goods_received_note/remove_goods_received_note/${grcn.brojPrijemnice}'/>" class="btn btn-primary"><i class="fa fa-remove"></i></a>
-                                </td>
-                            </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
-            </div>
+        <div class="row">
             <div class="col-xl-4 col-lg-8 col-md-12 col-sm-12 col-12">
-                <a href="<c:url value='/goods_received_note/add_goods_received_note/'/>" class="btn btn-primary"style="font-size:24px;"><i class="fa fa-plus-square-o"></i></a>
-                <div class="col-xl-4 col-lg-8 col-md-12 col-sm-12 col-12">
-                </div>
+                <br>
             </div>
+            <table  id="prijemnice1" class="table table-hover table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Broj prijemnice</th>
+                        <th scope="col">Datum prijema</th>
+                        <th scope="col">Datum unosa</th>
+                        <th scope="col">Vrednost</th>
+                        <th scope="col">Iznos PDV-a</th>
+                        <th scope="col">Vrednost sa PDV-om</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+            </table>
+
         </div>
     </div>
+    <script>
+        $(document).ready(function () {
+            var tabela = $("#prijemnice1").DataTable({
+                "language": {
+                    "search": "Pretraga",
+                    "processing": "Obrada",
+                    "orderCellsTop": false,
+                    "paginate": {
+                        "first": "Prvi",
+                        "previous": "Prethodni",
+                        "next": "Sledeći",
+                        "last": "Poslednji"
+                    },
+                    "loadingRecords": "Učitavanje podataka",
+                    "emptyTable": "Tabela je prazna",
+                    "zeroRecords": "Sistem ne moze da nadje prijemnicu po zadatoj vrednosti.",
+                    "info": "Prikazivanje _START_ do _END_ od _TOTAL_ prijemnica",
+                    "lengthMenu": "Prikaži _MENU_  prijemnica"
+
+                },
+                "destroy": true,
+                "processing": true, // for show progress bar
+                "filter": true, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                ajax: {
+                    "url": "/NJProjekatFED/goods_received_note/json",
+                    "type": "GET",
+                    "datatype": "json",
+                    dataSrc: ''
+                },
+                "columns": [
+                    {"data": "brojPrijemnice", "name": "Broj prijemnice", "autoWidth": true},
+                    {"data": "datum", "name": "Datum", "autoWidth": true,
+                        "render": function (data, type, row) {
+                            var date = new Date(data);
+                            var day = date.getDate();
+                            var month = date.getMonth() + 1;
+                            var year = date.getFullYear();
+                            return day + "." + month + "." + year;
+                        }},
+                    {"data": "datumUnosa", "name": "DatumUnosa", "autoWidth": true,
+                        "render": function (data, type, row) {
+                            var date = new Date(data);
+                            var day = date.getDate();
+                            var month = date.getMonth() + 1;
+                            var year = date.getFullYear();
+                            return day + "." + month + "." + year;
+                        }},
+                    {"data": "ukupno", "name": "Ukupno", "autoWidth": true},
+                    {"data": "ukupanPDV", "name": "ukupanPDV", "autoWidth": true},
+                    {"data": "ukupnoSaPDV", "name": "ukupnoSaPDV", "autoWidth": true},
+                    {
+                        "render": function (data, type, full, meta) {
+                            return '<a class="fa fa-info-circle btn btn-info" href="/NJProjekatFED/goods_received_note/find_goods_received_note/' + full.brojPrijemnice + '"></a>';
+                        }
+                    },
+                    {
+                        "render": function (data, type, full, meta) {
+                            return '<a class="fa fa-cogs btn btn-info" href="/NJProjekatFED/goods_received_note/update_goods_received_note/' + full.brojPrijemnice + '"></a>';
+                        }
+                    },
+                    {
+                        "render": function (data, type, full, meta) {
+                            return '<a class="fa fa-remove btn btn-info" href="/NJProjekatFED/goods_received_note/remove_goods_received_note/' + full.brojPrijemnice + '"></a>';
+                        }
+                    }
+                ]
+            });
+        });
+    </script> 
 </body>
